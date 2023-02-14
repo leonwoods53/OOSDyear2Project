@@ -19,14 +19,20 @@ public class SignUpPage {
     private static JTextField emailText;
     private static JLabel phoneLabel;
     private static JTextField phoneText;
-    private static JLabel addressLine1Label;
-    private static JTextField addressLine1Text;
-    private static JLabel addressLine2Label;
-    private static JTextField addressLine2Text;
-    private static JLabel addressLine3Label;
-    private static JTextField addressLine3Text;
-    private static JLabel addressLine4Label;
-    private static JTextField addressLine4Text;
+    private static JLabel streetLabel;
+    private static JTextField streetText;
+    private static JLabel cityLabel;
+    private static JTextField cityText;
+    private static JLabel countyLabel;
+    private static JTextField countyText;
+    private static JLabel eircodeLabel;
+    private static JTextField eircodeText;
+    private static JLabel passwordLabel;
+    private static JPasswordField passwordText;
+    private static JLabel confirmPasswordLabel;
+    private static JPasswordField confirmPasswordText;
+    private static JButton submitButton;
+    private static JButton goBackButton;
 
     public static void main(String[] args) {
       JPanel panel = new JPanel();
@@ -40,7 +46,7 @@ public class SignUpPage {
 
       //Creates First Name Label and Text Field
 
-      firstNameLabel = new JLabel("First Name:");
+      firstNameLabel = new JLabel("First Name: ");
       firstNameLabel.setBounds(10,20,100,25);
       panel.add(firstNameLabel);
 
@@ -50,7 +56,7 @@ public class SignUpPage {
 
       //Creates Surname Label and Text Field
 
-      surnameLabel = new JLabel("Surname:");
+      surnameLabel = new JLabel("Surname: ");
       surnameLabel.setBounds(10,50,100,25);
       panel.add(surnameLabel);
 
@@ -60,7 +66,7 @@ public class SignUpPage {
 
       //Creates Email Label and Text Field
 
-      emailLabel = new JLabel("Email:");
+      emailLabel = new JLabel("Email: ");
       emailLabel.setBounds(10,80,100,25);
       panel.add(emailLabel);
 
@@ -70,7 +76,7 @@ public class SignUpPage {
 
       //Creates Phone Number Label and Text Field
 
-      phoneLabel = new JLabel("Phone Number:");
+      phoneLabel = new JLabel("Phone Number: ");
       phoneLabel.setBounds(10,110,100,25);
       panel.add(phoneLabel);
 
@@ -80,43 +86,74 @@ public class SignUpPage {
 
       //Creates Address Line 1 Label and Text Field
 
-      addressLine1Label = new JLabel("Address Line 1:");
-      addressLine1Label.setBounds(10,140,100,25);
-      panel.add(addressLine1Label);
+      streetLabel = new JLabel("Address Street: ");
+      streetLabel.setBounds(10,140,100,25);
+      panel.add(streetLabel);
 
-      addressLine1Text = new JTextField();
-      addressLine1Text.setBounds(180, 140, 165, 25);
-      panel.add(addressLine1Text);
+      streetText = new JTextField();
+      streetText.setBounds(180, 140, 165, 25);
+      panel.add(streetText);
 
       //Creates Address Line 2 Label and Text Field
 
-      addressLine2Label = new JLabel("Address Line 2:");
-      addressLine2Label.setBounds(10,170,100,25);
-      panel.add(addressLine2Label);
+      cityLabel = new JLabel("City: ");
+      cityLabel.setBounds(10,170,100,25);
+      panel.add(cityLabel);
 
-      addressLine2Text = new JTextField();
-      addressLine2Text.setBounds(180, 170, 165, 25);
-      panel.add(addressLine2Text);
+      cityText = new JTextField();
+      cityText.setBounds(180, 170, 165, 25);
+      panel.add(cityText);
 
       //Creates Address Line 3 Label and Text Field
 
-      addressLine3Label = new JLabel("Address Line 3:");
-      addressLine3Label.setBounds(10,200,100,25);
-      panel.add(addressLine3Label);
+      countyLabel = new JLabel("County: ");
+      countyLabel.setBounds(10,200,100,25);
+      panel.add(countyLabel);
 
-      addressLine3Text = new JTextField();
-      addressLine3Text.setBounds(180, 200, 165, 25);
-      panel.add(addressLine3Text);
+      countyText = new JTextField();
+      countyText.setBounds(180, 200, 165, 25);
+      panel.add(countyText);
 
       //Creates Address Line 4 Label and Text Field
 
-      addressLine4Label = new JLabel("Address Line 4:");
-      addressLine4Label.setBounds(10,230,100,25);
-      panel.add(addressLine4Label);
+      eircodeLabel = new JLabel("Eircode: ");
+      eircodeLabel.setBounds(10,230,100,25);
+      panel.add(eircodeLabel);
 
-      addressLine4Text = new JTextField();
-      addressLine4Text.setBounds(180, 230, 165, 25);
-      panel.add(addressLine4Text);
+      eircodeText = new JTextField();
+      eircodeText.setBounds(180, 230, 165, 25);
+      panel.add(eircodeText);
+
+      //Creates password label and text field
+
+      passwordLabel = new JLabel("Password: ");
+      passwordLabel.setBounds(10, 260, 100, 25);
+      panel.add(passwordLabel);
+
+      passwordText = new JPasswordField();
+      passwordText.setBounds(180,260,165,25);
+      panel.add(passwordText);
+
+      //Label and text field to confirm password inputted by user in line above
+
+      confirmPasswordLabel = new JLabel("Confirm Password: ");
+      confirmPasswordLabel.setBounds(10, 290, 100, 25);
+      panel.add(confirmPasswordLabel);
+
+      confirmPasswordText = new JPasswordField();
+      confirmPasswordText.setBounds(180,290,165,25);
+      panel.add(confirmPasswordText);
+
+      //Submit and go back buttons 
+
+      submitButton = new JButton("Submit");
+      submitButton.setBounds(180,330,80,25);
+      submitButton.addActionListener(new LoginPage());
+      panel.add(submitButton);
+
+      goBackButton = new JButton("Go Back");
+      goBackButton.setBounds(10,330,165,25);
+      panel.add(goBackButton);
 
     }
     

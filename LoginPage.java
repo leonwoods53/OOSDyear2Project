@@ -48,7 +48,7 @@ public class LoginPage implements ActionListener{
 
       loginButton = new JButton("Login");
       loginButton.setBounds(10,80,80,25);
-      loginButton.addActionListener(new LoginPage());
+      loginButton.addActionListener((ActionListener) new SignUpPage());
       panel.add(loginButton);
 
       signupButton = new JButton("Sign Up");
@@ -81,4 +81,5 @@ public class LoginPage implements ActionListener{
       }
       
    }
+
 }
