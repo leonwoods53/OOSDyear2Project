@@ -108,11 +108,11 @@ public class LoginPage {
 
 	        try (Connection connection = DriverManager.getConnection(url, user, pass)) {
 	            String sql = "SELECT * FROM User WHERE username = ? AND password = ?";
-	            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-	                preparedStatement.setString(1, username);
-	                preparedStatement.setString(2, password);
+	            try (PreparedStatement pstat = connection.prepareStatement(sql)) {
+	                pstat.setString(1, username);
+	                pstat.setString(2, password);
 
-	                try (ResultSet resultSet = preparedStatement.executeQuery()) {
+	                try (ResultSet resultSet = pstat.executeQuery()) {
 	                    return resultSet.next();
 	                }
 	            }
