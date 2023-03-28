@@ -1,5 +1,8 @@
 package project;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -26,19 +29,44 @@ public class MainMenu extends JFrame {
         Info.setBounds(300,100,150,25);
         panel.add(Info);
         
-       JButton Customer = new JButton("Customer");
-       Customer.setBounds(100,200,150,25);
-       panel.add(Customer);
+       JButton Customers = new JButton("Customers");
+       Customers.setBounds(100,200,150,25);
+       panel.add(Customers);
+       
+       Customers.addActionListener(new ActionListener() {
+    	   @Override	
+    	   public void actionPerformed(ActionEvent e) {
+    		   Customers customersPage = new Customers();
+    		   customersPage.setVisible(true);
+    		   MainMenu.this.dispose();
+    	   }
+       });
        
        JButton Products = new JButton("Products");
        Products.setBounds(300,200,150,25);
        panel.add(Products);
        
+       Products.addActionListener(new ActionListener() {
+    	   @Override	
+    	   public void actionPerformed(ActionEvent e) {
+    		   Products productsPage = new Products();
+    		   productsPage.setVisible(true);
+    		   MainMenu.this.dispose();
+    	   }
+       });
+       
        JButton Invoices = new JButton("Invoices");
        Invoices.setBounds(517,200,150,25);
        panel.add(Invoices);
        
-       
+       Invoices.addActionListener(new ActionListener() {
+    	   @Override	
+    	   public void actionPerformed(ActionEvent e) {
+    		   Invoices invoicesPage = new Invoices();
+    		   invoicesPage.setVisible(true);
+    		   MainMenu.this.dispose();
+    	   }
+       });      
 	
 }
 }
