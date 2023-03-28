@@ -18,7 +18,7 @@ import java.awt.event.ActionListener;
 
 
 
-public class AddCustomer extends JFrame implements ActionListener{
+public class AddCustomer extends JFrame {
 	
 	private static JLabel firstNameLabel;
 	private static JTextField firstName;
@@ -43,7 +43,9 @@ public class AddCustomer extends JFrame implements ActionListener{
 	
     
 	
-	public static void main(String [] args) {
+	public AddCustomer() {
+		
+		
 		
 		JPanel panel = new JPanel();
 	    JFrame frame = new JFrame();
@@ -189,9 +191,4 @@ public class AddCustomer extends JFrame implements ActionListener{
 	        }
 	    }
 
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			// TODO Auto-generated method stub
-			
-		}
 }
