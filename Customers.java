@@ -29,6 +29,7 @@ public class Customers extends JFrame {
         JButton addButton = new JButton("Add");
         JButton editButton = new JButton("Edit");
         JButton deleteButton = new JButton("Delete");
+        JButton goBackButton = new JButton("Main Menu");
 
         
         addButton.addActionListener(new ActionListener() {
@@ -38,11 +39,21 @@ public class Customers extends JFrame {
                 addCustomerPage.setVisible(true);
             }
         });
+        
+        goBackButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                MainMenu mainMenu = new MainMenu();
+                mainMenu.setVisible(true);
+            }
+        });
+        
 
         JPanel buttonPanel = new JPanel();
         buttonPanel.add(addButton);
         buttonPanel.add(editButton);
         buttonPanel.add(deleteButton);
+        buttonPanel.add(goBackButton);
 
         setLayout(new BorderLayout());
         add(scrollPane, BorderLayout.CENTER);
