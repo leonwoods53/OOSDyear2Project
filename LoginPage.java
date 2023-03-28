@@ -17,7 +17,7 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 
-public class LoginPage {
+public class LoginPage extends JFrame {
 
    	   private static JLabel userLabel;
 	   private static JTextField userText;
@@ -35,74 +35,77 @@ public class LoginPage {
 	    }
 
 	    private static JFrame createLoginFrame() {
-	        JFrame frame = new JFrame("Login");
-	        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	        frame.setSize(300, 200);
+	        
+	    	  JFrame frame = new JFrame("Login");
+	    	  frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	    	  frame.setSize(300, 200);
 
-	      JPanel panel = new JPanel();
-	      frame.setSize(350,200);
-	      frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	      frame.setVisible(true);
-	      frame.add(panel);
-	      
-	      panel.setLayout(null);
-
-	      userLabel = new JLabel("Username");
-	      userLabel.setBounds(10, 20, 80, 25);
-	      panel.add(userLabel);
-
-	      userText = new JTextField();
-	      userText.setBounds(100, 20, 165, 25);
-	      panel.add(userText);
-
-	      passwordLabel = new JLabel("Password");
-	      passwordLabel.setBounds(10, 50, 80, 25);
-	      panel.add(passwordLabel);
-
-	      passwordText = new JPasswordField();
-	      passwordText.setBounds(100,50,165,25);
-	      panel.add(passwordText);
-
-	      loginButton = new JButton("Login");
-	      loginButton.setBounds(10,80,80,25);
-	      panel.add(loginButton);
-
-	      loginButton.addActionListener(new ActionListener() {
-	            @Override
-	            public void actionPerformed(ActionEvent e) {
-	                String username = userText.getText();
-	                String password = new String(passwordText.getPassword());
-
-	                try {
-	                    if (authenticateUser(username, password)) {
-	                        JOptionPane.showMessageDialog(frame, "Login successful!");
-	                        frame.dispose();
-	                        SwingUtilities.invokeLater(() -> {
-	                            JFrame mainMenu = new MainMenu();
-	                            mainMenu.setVisible(true);
-	                            
-	                           
-	                        });
-	                        // Perform any post-login actions here
-	                    } else {
-	                        JOptionPane.showMessageDialog(frame, "Invalid username or password.");
-	                    }
-	                } catch (SQLException ex) {
-	                    JOptionPane.showMessageDialog(frame, "Error: " + ex.getMessage());
-	                }
-	            }	
-				
-	        });
-	      
-	      frame.add(panel);
-	      frame.setVisible(true);
-	      return frame;
-  	   	 
-	   }
+		      JPanel panel = new JPanel();
+		      frame.setSize(350,200);
+		      frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		      frame.setVisible(true);
+		      frame.add(panel);
+		      
+		      panel.setLayout(null);
+	
+		      userLabel = new JLabel("Username");
+		      userLabel.setBounds(10, 20, 80, 25);
+		      panel.add(userLabel);
+	
+		      userText = new JTextField();
+		      userText.setBounds(100, 20, 165, 25);
+		      panel.add(userText);
+	
+		      passwordLabel = new JLabel("Password");
+		      passwordLabel.setBounds(10, 50, 80, 25);
+		      panel.add(passwordLabel);
+	
+		      passwordText = new JPasswordField();
+		      passwordText.setBounds(100,50,165,25);
+		      panel.add(passwordText);
+	
+		      loginButton = new JButton("Login");
+		      loginButton.setBounds(10,80,80,25);
+		      panel.add(loginButton);
+	
+		      loginButton.addActionListener(new ActionListener() {
+		            @Override
+		            public void actionPerformed(ActionEvent e) {
+		                String username = userText.getText();
+		                String password = new String(passwordText.getPassword());
+	
+		                try {
+		                    if (authenticateUser(username, password)) {
+		                        JOptionPane.showMessageDialog(frame, "Login successful!");
+		                        frame.dispose();
+		                        SwingUtilities.invokeLater(() -> {
+		                            JFrame mainMenu = new MainMenu();
+		                            mainMenu.setVisible(true);
+		                            
+		                            
+		                           
+		                        });
+		                      
+		                    } else {
+		                        JOptionPane.showMessageDialog(frame, "Invalid username or password.");
+		                    }
+		                } catch (SQLException ex) {
+		                    JOptionPane.showMessageDialog(frame, "Error: " + ex.getMessage());
+		                }
+		            }	
+					
+		        });
+		      
+		      frame.add(panel);
+		      frame.setVisible(true);
+		      return frame;
+	  	   	 
+		   }
 	   
 
 	    private static boolean authenticateUser(String username, String password) throws SQLException {
-	        String url = "jdbc:mysql://localhost/oosdProject";
+	       
+	    	String url = "jdbc:mysql://localhost/oosdProject";
 	        String user = "root";
 	        String pass = "";
 
