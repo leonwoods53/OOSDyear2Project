@@ -15,25 +15,26 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
-import javax.swing.SwingUtilities;
+
 
 public class LoginPage extends JFrame {
 
+	   //declaration of gui components 
    	   private static JLabel userLabel;
 	   private static JTextField userText;
 	   private static JLabel passwordLabel;
 	   private static JPasswordField passwordText;
 	   private static JButton loginButton;
 	
-
+	   //main driver for the program
 	   public static void main(String []args) {
 		   
-		   SwingUtilities.invokeLater(() -> {
-	            JFrame frame = createLoginFrame();
-	            frame.setVisible(true);
-	        });
+		   //declares a new JFrame and makes it visible when the main driver is ran
+		   JFrame frame = createLoginFrame();
+           frame.setVisible(true);
 	    }
 
+	   	//Jframe method that creates the dimensions and values of the gui components
 	    private static JFrame createLoginFrame() {
 	        
 	    	  JFrame frame = new JFrame("Login");
@@ -68,24 +69,23 @@ public class LoginPage extends JFrame {
 		      loginButton.setBounds(10,80,80,25);
 		      panel.add(loginButton);
 	
+		      //action listener for the login button that calls the action performed method
 		      loginButton.addActionListener(new ActionListener() {
 		            @Override
+		            
+		            //Stores user inputted data from the gui as local variables
 		            public void actionPerformed(ActionEvent e) {
 		                String username = userText.getText();
 		                String password = new String(passwordText.getPassword());
-	
+		                
+		                //try block to call the authenticateUser method, and displays a success message if it works
 		                try {
 		                    if (authenticateUser(username, password)) {
 		                        JOptionPane.showMessageDialog(frame, "Login successful!");
 		                        frame.dispose();
-		                        SwingUtilities.invokeLater(() -> {
-		                            JFrame mainMenu = new MainMenu();
-		                            mainMenu.setVisible(true);
-		                            
-		                            
-		                           
-		                        });
-		                      
+		                        JFrame mainMenu = new MainMenu();
+		                        mainMenu.setVisible(true);	
+		                        
 		                    } else {
 		                        JOptionPane.showMessageDialog(frame, "Invalid username or password.");
 		                    }
@@ -96,13 +96,12 @@ public class LoginPage extends JFrame {
 					
 		        });
 		      
-		      frame.add(panel);
-		      frame.setVisible(true);
+		     
 		      return frame;
 	  	   	 
 		   }
 	   
-
+	    //boolean method that checks if username and password inputted match data in the sql database
 	    private static boolean authenticateUser(String username, String password) throws SQLException {
 	       
 	    	String url = "jdbc:mysql://localhost/oosdProject";
