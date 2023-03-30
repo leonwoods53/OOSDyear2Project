@@ -1,6 +1,8 @@
 package project;
 
 import javax.swing.*;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -15,6 +17,7 @@ public class Customers extends JFrame {
 
     private JTable customerTable;
     private DefaultTableModel customerData;
+    
 
     public Customers() {
         setTitle("Customer");
@@ -27,7 +30,6 @@ public class Customers extends JFrame {
         JScrollPane scrollPane = new JScrollPane(customerTable);
 
         JButton addButton = new JButton("Add");
-        JButton editButton = new JButton("Edit");
         JButton deleteButton = new JButton("Delete");
         JButton goBackButton = new JButton("Main Menu");
 
@@ -40,6 +42,8 @@ public class Customers extends JFrame {
             }
         });
         
+        
+        
         goBackButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -51,14 +55,78 @@ public class Customers extends JFrame {
 
         JPanel buttonPanel = new JPanel();
         buttonPanel.add(addButton);
-        buttonPanel.add(editButton);
         buttonPanel.add(deleteButton);
         buttonPanel.add(goBackButton);
 
         setLayout(new BorderLayout());
         add(scrollPane, BorderLayout.CENTER);
         add(buttonPanel, BorderLayout.SOUTH);
-    }
+        
+        
+       
+        customerData.addTableModelListener(new TableModelListener() {
+        @Override
+        public void tableChanged(TableModelEvent e) {
+	        if (e.getType() == TableModelEvent.UPDATE) {
+	            int row = e.getFirstRow();
+	            int column = e.getColumn();
+	            Object value = customerData.getValueAt(row, column);
+	            int customerId = (int) customerData.getValueAt(row, 0);
+	            
+	            String columnName;
+	            switch (column) {
+	                case 1:
+	                    columnName = "CustomerFirstName";
+	                    break;
+	                case 2:
+	                    columnName = "CustomerLastName";
+	                    break;
+	                case 3:
+	                    columnName = "CustomerPhone";
+	                    break;
+	                case 4:
+	                    columnName = "CustomerEmail";
+	                    break;
+	                case 5:
+	                    columnName = "CustomerStreet";
+	                    break;
+	                case 6:
+	                    columnName = "City";
+	                    break;
+	                case 7:
+	                    columnName = "County";
+	                    break;
+	                case 8:
+	                    columnName = "Eircode";
+	                    break;
+	                case 9:
+	                    columnName = "Password";
+	                    break;
+	                default:
+	                    return;
+	            }
+	
+	            String updateQuery = "UPDATE Customer SET " + columnName + "=? WHERE CustomerID=?";
+	
+	            try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/oosdProject", "root", "")) {
+	                PreparedStatement pstat = conn.prepareStatement(updateQuery);
+	
+	                pstat.setObject(1, value);
+	                pstat.setInt(2, customerId);
+	
+	                pstat.executeUpdate();
+	            } catch (SQLException ex) {
+	                ex.printStackTrace();
+	                JOptionPane.showMessageDialog(Customers.this, "Error updating customer.", "Error",JOptionPane.ERROR_MESSAGE);
+	
+	                }		
+	
+	        }
+	      }
+	    });
+	}
+
+
 
     private DefaultTableModel getCustomerData() {
         String[] columnNames = {"CustomerID", "CustomerFirstName", "CustomerLastName", "CustomerPhone",
@@ -69,19 +137,19 @@ public class Customers extends JFrame {
         try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/oosdProject", "root", "")) {
             String query = "SELECT * FROM Customer";
             PreparedStatement pstat = conn.prepareStatement(query);
-            ResultSet rs = pstat.executeQuery();
+            ResultSet resultSet = pstat.executeQuery();
 
-            while (rs.next()) {
-            	int customerId = rs.getInt("CustomerID");
-                String firstName = rs.getString("CustomerFirstName");
-                String lastName = rs.getString("CustomerLastName");
-                String phone = rs.getString("CustomerPhone");
-                String email = rs.getString("CustomerEmail");
-                String street = rs.getString("CustomerStreet");
-                String city = rs.getString("City");
-                String county = rs.getString("County");
-                String eircode = rs.getString("Eircode");
-                String password = rs.getString("Password");
+            while (resultSet.next()) {
+            	int customerId = resultSet.getInt("CustomerID");
+                String firstName = resultSet.getString("CustomerFirstName");
+                String lastName = resultSet.getString("CustomerLastName");
+                String phone = resultSet.getString("CustomerPhone");
+                String email = resultSet.getString("CustomerEmail");
+                String street = resultSet.getString("CustomerStreet");
+                String city = resultSet.getString("City");
+                String county = resultSet.getString("County");
+                String eircode = resultSet.getString("Eircode");
+                String password = resultSet.getString("Password");
 
                 Object[] rowData = {customerId, firstName, lastName, phone, email, street, city, county, eircode, password};
                 model.addRow(rowData);
@@ -92,6 +160,9 @@ public class Customers extends JFrame {
         }
 
         return model;
+        
+        
     }
+    
 }
 
