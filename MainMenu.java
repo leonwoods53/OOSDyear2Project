@@ -10,9 +10,10 @@ import javax.swing.JPanel;
 
 public class MainMenu extends JFrame {
 
-	
+	//instance of main menu class that is invoked when the user has successfully logged into the system
 	public MainMenu() {
         
+		//setting GUI components 
 		JPanel panel = new JPanel();
 	    JFrame frame = new JFrame();
 	    frame.setSize(750,350);
@@ -33,6 +34,7 @@ public class MainMenu extends JFrame {
        Customers.setBounds(100,200,150,25);
        panel.add(Customers);
        
+       //action listener that displays the customers page when the customer button is clicked
        Customers.addActionListener(new ActionListener() {
     	   @Override	
     	   public void actionPerformed(ActionEvent e) {
@@ -46,6 +48,7 @@ public class MainMenu extends JFrame {
        Products.setBounds(300,200,150,25);
        panel.add(Products);
        
+     //action listener that displays the products page when the customer button is clicked
        Products.addActionListener(new ActionListener() {
     	   @Override	
     	   public void actionPerformed(ActionEvent e) {
@@ -59,6 +62,7 @@ public class MainMenu extends JFrame {
        Invoices.setBounds(517,200,150,25);
        panel.add(Invoices);
        
+     //action listener that displays the invoices page when the customer button is clicked
        Invoices.addActionListener(new ActionListener() {
     	   @Override	
     	   public void actionPerformed(ActionEvent e) {
