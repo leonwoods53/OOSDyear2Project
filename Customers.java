@@ -45,6 +45,7 @@ public class Customers extends JFrame {
             }
         });
         
+        //checks if a row is selected from the table and calls the deleteCustomer method
         deleteButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -176,8 +177,8 @@ public class Customers extends JFrame {
 
         //trying connecting to db
         try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/oosdProject", "root", "")) {
-            String query = "SELECT * FROM Customer";
-            PreparedStatement pstat = conn.prepareStatement(query);
+            String sql = "SELECT * FROM Customer";
+            PreparedStatement pstat = conn.prepareStatement(sql);
             //storing results from the sql query in a ResultSet
             ResultSet resultSet = pstat.executeQuery();
 
