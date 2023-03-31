@@ -10,7 +10,6 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.JPasswordField;
 import javax.swing.JButton;
 
 import java.awt.event.ActionEvent;
@@ -20,6 +19,7 @@ import java.awt.event.ActionListener;
 
 public class AddCustomer extends JFrame {
 	
+	//declaring gui components, JLabel,JTextFields,JButtons etc
 	private static JLabel firstNameLabel;
 	private static JTextField firstName;
 	private static JLabel lastNameLabel;
@@ -36,17 +36,15 @@ public class AddCustomer extends JFrame {
 	private static JTextField county;
 	private static JLabel eircodeLabel;
 	private static JTextField eircode;
-	private static JLabel passwordLabel;
-	private static JPasswordField password;
 	private static JButton submit;
-	private static JButton goBack;
+	
 	
     
-	
+	//an instance of the AddCustomer class to be called when the add customer button in Customers class is clicked
 	public AddCustomer() {
 		
 		
-		
+		//Setting the JFrame and panel dimensions 
 		JPanel panel = new JPanel();
 	    JFrame frame = new JFrame();
 	    frame.setSize(500,500);
@@ -128,36 +126,29 @@ public class AddCustomer extends JFrame {
 	    eircode.setBounds(180,230,165,25);
 	    panel.add(eircode);
 	    
-	    //Set password label and text field
-	    passwordLabel = new JLabel("Password: ");
-	    passwordLabel.setBounds(10,260,100,25);
-	    panel.add(passwordLabel);
-	    
-	    password = new JPasswordField();
-	    password.setBounds(180,260,165,25);
-	    panel.add(password);
-	    
 	    //submit and go back buttons
 	    submit = new JButton("Submit");
 	    submit.setBounds(180,290,80,25);
 	    panel.add(submit);
 	    
-	    
+	    //Action Listener that calls the action performed method when the submit button is clicked
 	    submit.addActionListener(new ActionListener() {
 	    	@Override
 	    	public void actionPerformed(ActionEvent e) {
+	    		//Stores user data from JTextField
 	    		String CustomerFirstName = firstName.getText();
 	    		String CustomerLastName = lastName.getText();
-	    		String CustomerPhone = phone.getText();
+	    		int CustomerPhone = Integer.parseInt(phone.getText());
 	    		String CustomerEmail = email.getText();
 	    		String CustomerStreet = street.getText();
 	    		String City = city.getText();
 	    		String County = county.getText();
 	    		String Eircode = eircode.getText();
-	    		String Password = new String (password.getPassword());
 	    		
+	    		//Trying to call the insertUser method and passing in values declared above, with a catch block to catch and sql exception that may occur
+	    		//The messageDialog is shown if this is succesful
 	    		try {
-	    			insertUser(CustomerFirstName,CustomerLastName,CustomerPhone,CustomerEmail,CustomerStreet,City,County,Eircode,Password);
+	    			insertUser(CustomerFirstName,CustomerLastName,CustomerPhone,CustomerEmail,CustomerStreet,City,County,Eircode);
 	    			JOptionPane.showMessageDialog(frame, "User Succesfully Added");
 	    		} catch (SQLException ex) {
 	    			JOptionPane.showMessageDialog(frame, "Error: " + ex.getMessage());
@@ -167,25 +158,24 @@ public class AddCustomer extends JFrame {
 	    	frame.add(panel);
 	    	frame.setVisible(true);
 	    }
-	    
-	    private static void insertUser(String CustomerFirstName,String CustomerLastName, String CustomerPhone, String CustomerEmail, String CustomerStreet, String City, String County, String Eircode, String Password) throws SQLException {
-	    	String url = "jdbc:mysql://localhost/oosdProject";
-	        String user = "root";
-	        String pass = "";
+	    //Method to Insert a new User into the SQL database
+	    private static void insertUser(String CustomerFirstName,String CustomerLastName, int CustomerPhone, String CustomerEmail, String CustomerStreet, String City, String County, String Eircode) throws SQLException {
 	        
-	        try (Connection connection = DriverManager.getConnection(url, user, pass)) {
+	        //trying to connect to the database with values declared above
+	        try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/oosdProject", "root", "")) {
 	        	
-	        	String sql = "INSERT INTO Customer (CustomerFirstName, CustomerLastName, CustomerPhone, CustomerEmail, CustomerStreet, City, County, Eircode, Password) VALUES (?,?,?,?,?,?,?,?,?)";
+	        	//SQL command to insert new values into the Customer Table 	
+	        	String sql = "INSERT INTO Customer (CustomerFirstName, CustomerLastName, CustomerPhone, CustomerEmail, CustomerStreet, City, County, Eircode) VALUES (?,?,?,?,?,?,?,?)";
+	        	//Prepared Statement to prevent an SQL Injection attack, and to allow the use of the same statement for different values
 	        	try (PreparedStatement pstat = connection.prepareStatement(sql)) {
 	        		pstat.setString(1, CustomerFirstName);
 	    			pstat.setString(2, CustomerLastName);
-	    			pstat.setString(3, CustomerPhone);
+	    			pstat.setInt(3, CustomerPhone);
 	    			pstat.setString(4, CustomerEmail);
 	    			pstat.setString(5, CustomerStreet);
 	    			pstat.setString(6, City);
 	    			pstat.setString(7, County);
 	    			pstat.setString(8, Eircode);
-	    			pstat.setString(9, Password);
 	    			pstat.executeUpdate();
 	        	}
 	        }

@@ -41,6 +41,28 @@ public class Products extends JFrame {
             }
         });
         
+        deleteButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int selectedRow = productTable.getSelectedRow();
+                if (selectedRow >= 0) {
+                    int result = JOptionPane.showConfirmDialog(Products.this, "Are you sure you want to delete this product?", "Delete product", JOptionPane.YES_NO_OPTION);
+                    if (result == JOptionPane.YES_OPTION) {
+                        int customerId = (int) productData.getValueAt(selectedRow, 0);
+                        try {
+                            deleteProduct(customerId);
+                            productData.removeRow(selectedRow);
+                        } catch (SQLException ex) {
+                            ex.printStackTrace();
+                            JOptionPane.showMessageDialog(Products.this, "Error deleting product.", "Error", JOptionPane.ERROR_MESSAGE);
+                        }
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(Products.this, "Select a product to delete.", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        });
+        
         goBackButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -109,7 +131,7 @@ public class Products extends JFrame {
     
 
     private DefaultTableModel getProductData() {
-        String[] columnNames = {"ProductID", "Price", "StockQuantity", "Description", "ProductCondition"
+        String[] columnNames = {"Product ID", "Price", "Stock Quantity", "Description", "Product Condition"
         	};
         
         DefaultTableModel model = new DefaultTableModel(columnNames, 0);
@@ -138,4 +160,15 @@ public class Products extends JFrame {
 
         return model;
     }
+    
+    private void deleteProduct(int productId) throws SQLException {
+    	
+    	try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/oosdProject", "root", "")) {
+    		String deleteQuery = "DELETE FROM Product WHERE ProductID = ?";
+    		PreparedStatement pstat = conn.prepareStatement(deleteQuery);
+    		pstat.setInt(1, productId);
+    		pstat.executeUpdate();
+    	} 	
+    }
+    
 }
