@@ -94,6 +94,8 @@ public class AddInvoice extends JFrame {
 	    		//The messageDialog is shown if this is succesful
 	    		try {
 	    			int price = getProductPrice(ProductID);
+	    			//declaring the total price to be inserted as the price from the Product table * Quantity
+	    			//that is inputted from the add invoice form
 	    			double totalPrice = price * Quantity;
 	    			insertInvoice(ProductID, totalPrice, CustomerID, Quantity);
 	    			JOptionPane.showMessageDialog(frame, "Invoice Succesfully Added");
@@ -110,12 +112,13 @@ public class AddInvoice extends JFrame {
 	    	frame.add(panel);
 	    	frame.setVisible(true);
 	    }
-	
+		//method to retrieve the product price from the Product table
 		public static int getProductPrice(int productId) throws Exception {
 			try(Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/oosdProject", "root", "")) {
 				String sql = "SELECT Price FROM Product WHERE ProductID=?";
 				PreparedStatement statement = connection.prepareStatement(sql);
 		        statement.setInt(1, productId);
+		        
 		        ResultSet resultSet = statement.executeQuery();
 		        
 		        if (resultSet.next()) {

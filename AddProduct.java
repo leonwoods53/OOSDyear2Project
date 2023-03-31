@@ -109,11 +109,8 @@ public class AddProduct extends JFrame {
 	    }
 	    
 	    private static void insertProduct(String Price, String StockQuantity, String Description, String ProductCondition) throws SQLException {
-	    	String url = "jdbc:mysql://localhost/oosdProject";
-	        String user = "root";
-	        String pass = "";
 	        
-	        try (Connection connection = DriverManager.getConnection(url, user, pass)) {
+	        try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/oosdProject", "root", "")) {
 	        	
 	        	String sql = "INSERT INTO Product (Price, StockQuantity, Description, ProductCondition) VALUES (?,?,?,?)";
 	        	try (PreparedStatement pstat = connection.prepareStatement(sql)) {

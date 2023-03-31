@@ -104,11 +104,8 @@ public class LoginPage extends JFrame {
 	    //boolean method that checks if username and password inputted match data in the sql database
 	    private static boolean authenticateUser(String username, String password) throws SQLException {
 	       
-	    	String url = "jdbc:mysql://localhost/oosdProject";
-	        String user = "root";
-	        String pass = "";
 
-	        try (Connection connection = DriverManager.getConnection(url, user, pass)) {
+	        try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/oosdProject", "root", "")) {
 	            String sql = "SELECT * FROM User WHERE username = ? AND password = ?";
 	            try (PreparedStatement pstat = connection.prepareStatement(sql)) {
 	                pstat.setString(1, username);
