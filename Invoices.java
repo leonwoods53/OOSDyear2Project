@@ -98,13 +98,18 @@ public class Invoices extends JFrame {
         invoiceData.addTableModelListener(new TableModelListener() {
         @Override
         public void tableChanged(TableModelEvent e) {
+        	//check to see if table model event type id an update
 	        if (e.getType() == TableModelEvent.UPDATE) {
+	        	//retrieves the affected row and column
 	            int row = e.getFirstRow();
 	            int column = e.getColumn();
+	            //retirves new value at the affected row/column
 	            Object value = invoiceData.getValueAt(row, column);
+	            //retrieves the invoice ID at affected row (index 0)
 	            int invoiceId = (int) invoiceData.getValueAt(row, 0);
 	            
 	            String columnName;
+	            //switch block to map columnName to the chosen column index
 	            switch (column) {
 	                case 1:
 	                    columnName = "ProductID";
@@ -148,23 +153,32 @@ public class Invoices extends JFrame {
 
     //defaultTableModel method to display info from the database in the JTable
     private DefaultTableModel getInvoiceData() {
+    	//array declaring column names in JTable
         String[] columnNames = {"Invoice ID", "Price", "Product ID", "Customer ID", "Quantity"
         };
+        
+        //new default table model with initial row value of 0
         DefaultTableModel model = new DefaultTableModel(columnNames, 0);
 
+        //trying connection to db
         try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/oosdProject", "root", "")) {
             String sql = "SELECT * FROM Invoice";
             PreparedStatement pstat = conn.prepareStatement(sql);
+            //storing the sql query result in a ResultSet Object
             ResultSet resultSet = pstat.executeQuery();
 
+            //loop through each row
             while (resultSet.next()) {
+            	//retrieves values at each column to store as local variables
             	int invoiceId = resultSet.getInt("InvoiceID");
             	int productId = resultSet.getInt("ProductID");
                 int price = resultSet.getInt("Price");
                 int customerId = resultSet.getInt("CustomerID");
                 int quantity = resultSet.getInt("Quantity");
 
+                //array to store the column values
                 Object[] rowData = {invoiceId, price, productId, customerId, quantity };
+                //adding new row to the Jtable model with the values
                 model.addRow(rowData);
             }
 
