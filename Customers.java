@@ -94,17 +94,23 @@ public class Customers extends JFrame {
         add(buttonPanel, BorderLayout.SOUTH);
         
         
-       //Action Listener for when a user edits the JTable Data
+       //table model listener (swing) for when a user edits the JTable Data
         customerData.addTableModelListener(new TableModelListener() {
         @Override
         public void tableChanged(TableModelEvent e) {
+        	//checks if table model event type is an update
 	        if (e.getType() == TableModelEvent.UPDATE) {
+	        	//Then the row and column affected is retrieved
 	            int row = e.getFirstRow();
 	            int column = e.getColumn();
+	            //Then gets the new value inputted at the affected row/column
 	            Object value = customerData.getValueAt(row, column);
+	            //retrieves the customer ID at the affected row (customer ID is column index 0 in JTable)
 	            int customerId = (int) customerData.getValueAt(row, 0);
 	            
+	            	
 	            String columnName;
+	            //switch block to map the column name to the chosen column index (for updating the db values)
 	            switch (column) {
 	                case 1:
 	                    columnName = "CustomerFirstName";
@@ -134,13 +140,14 @@ public class Customers extends JFrame {
 	                    return;
 	            }
 	            
-	            //sql statement that updates the database based on user input into a selected columnName from the JTable
+	            //sql statement that updates the database based on the data in the selected columnName from the JTable
 	            String sql = "UPDATE Customer SET " + columnName + "=? WHERE CustomerID=?";
 	
 	            //try to connect to the database
 	            try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/oosdProject", "root", "")) {
 	                PreparedStatement pstat = conn.prepareStatement(sql);
 	
+	                //prepared statement to update database with inputted values from JTable
 	                pstat.setObject(1, value);
 	                pstat.setInt(2, customerId);
 	
@@ -159,17 +166,24 @@ public class Customers extends JFrame {
 
     //defaultTableModel method to display info from the database in the JTable
     private DefaultTableModel getCustomerData() {
+    	//array to declare the column names in the JTable
         String[] columnNames = {"Customer ID", "First Name", "Last Name", "Phone Number",
                 "Email", "Street", "City", "County", "Eircode"
         };
+        
+        //creating a new default table model with an initial row value of 0, and with column names declared above
         DefaultTableModel model = new DefaultTableModel(columnNames, 0);
 
+        //trying connecting to db
         try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/oosdProject", "root", "")) {
             String query = "SELECT * FROM Customer";
             PreparedStatement pstat = conn.prepareStatement(query);
+            //storing results from the sql query in a ResultSet
             ResultSet resultSet = pstat.executeQuery();
 
+            //Loop through each row in the ResultSet
             while (resultSet.next()) {
+            	//retrieves the value for each column and stores them as local variables (to be used in array below)
             	int customerId = resultSet.getInt("CustomerID");
                 String firstName = resultSet.getString("CustomerFirstName");
                 String lastName = resultSet.getString("CustomerLastName");
@@ -180,7 +194,9 @@ public class Customers extends JFrame {
                 String county = resultSet.getString("County");
                 String eircode = resultSet.getString("Eircode");
 
+                //object array to store the column values at each row
                 Object[] rowData = {customerId, firstName, lastName, phone, email, street, city, county, eircode};
+                //Adding a new row to the JTable model using the values 
                 model.addRow(rowData);
             }
 
